@@ -9,4 +9,5 @@ class Index
     {
         return '我是新闻插件';
     }
+
 }
