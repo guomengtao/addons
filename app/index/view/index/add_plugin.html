@@ -5,13 +5,39 @@
     <title>Title</title>
 </head>
 <body>
-<h1>导入本地插件 zip格式</h1>
+<h1>基础Thinkphp6插件系统实例</h1>
+<h3>导入本地插件 zip格式</h3>
 <form action="/index/index/upload" enctype="multipart/form-data" method="post">
     <input type="file" name="image" /> <br>
     <input type="submit" value="上传" />
 </form>
 
-要求：zip的文件名 即时插件的名称
-直接压缩zip里面的所有文件。
+要求：zip压缩文件，
+zip文件名即是插件的名称
+
+直接压缩ThinkPHP6里APP的某个应用即可运行。 压缩应用里面的所有文件。
+<p>
+示例：app目录的demo应用。进入 thinkphp6的app目录的demo里面，全选所有文件进行压缩为zip文件。
+然后上传即可。
+访问路径：http://addon.gaoxueya.com/demo
+</p>
+<p>我的qq：250285636</p>
+
+
+<p>注：本插件v0.1版只有一个导入本地thinkphp应用功能和钩子调用功能，没有插件管理 卸载 删除等功能。</p>
+ 此源码下载地址：
+
+<script src='https://gitee.com/rinuo/addons/widget_preview' async defer></script>
+<div id="osc-gitee-widget-tag"></div>
+<style>
+    .osc_pro_color {color: #4183c4 !important;}
+    .osc_panel_color {background-color: #ffffff !important;}
+    .osc_background_color {background-color: #ffffff !important;}
+    .osc_border_color {border-color: #e3e9ed !important;}
+    .osc_desc_color {color: #666666 !important;}
+    .osc_link_color * {color: #9b9b9b !important;}
+</style>
+
+
 </body>
 </html>

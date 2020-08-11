@@ -7,14 +7,8 @@ class Index
 {
     public function index()
     {
-        echo "<br>首页<br>";
+       return view('add_plugin');
 
-//        埋入的钩子
-        Hook::listen('login');
-
-        echo "<br>底部<br>";
-
-        Hook::listen('news');
     }
 
     public function addPlugin()
@@ -31,6 +25,10 @@ class Index
 
         $fileName = $file->getOriginalName();
         $fileName = substr($fileName, 0, -4);
+
+        if ($fileName== 'index'){
+            return "index模块为基础插件功能模块，请尝试使用其它名称做为插件名";
+        }
 
         $validate = validate(['image' => 'filesize:10000240|fileExt:zip']);
 
