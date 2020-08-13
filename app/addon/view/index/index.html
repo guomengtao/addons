@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>upload模块快速使用</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css">
+    <script src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+</head>
+<body>
+
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+    <legend>拖拽上传</legend>
+</fieldset>
+
+<div class="layui-upload-drag" id="test10">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+
+</div>
+
+<div class="layui-hide" id="uploadDemoView">
+    <hr>
+    <a href="#" target="_blank"> 点击访问您生成的插件！！</a>
+</div>
+<br><br>
+ 准备工作！！ <br><br><br><br>
+
+ <button type="button" class="layui-btn" id="test1">
+     <i class="layui-icon">&#xe67c;</i>上传图片
+ </button>
+
+
+
+ <form action="/index/index/upload" enctype="multipart/form-data" method="post">
+     <input type="file" name="image" /> <br>
+     <input type="submit" value="上传" />
+ </form>
+
+ <script>
+
+     layui.use(['upload','layer'],function (){
+         var upload = layui.upload;
+
+         //执行实例
+         var uploadInst = upload.render({
+             elem: '#test1' //绑定元素
+             ,url: '/index/index/uploadLayui' //上传接口
+             ,accept:'file'  // 文件类型
+             ,field:'uploadZip' //字段 name值
+             ,done: function(res){
+                 layer.msg(res.info);
+                 //上传完毕回调
+                 console.log(res);
+             }
+             ,error: function(){
+                 //请求异常回调
+                 console.log('no');
+             }
+         });
+
+
+         //拖拽上传
+         upload.render({
+             elem: '#test10'
+             ,url: '/index/index/uploadLayui' //改成您自己的上传接口
+             ,accept:'file'  // 文件类型
+             ,field:'uploadZip' //字段 name值
+             ,done: function(res){
+
+
+                 layer.msg(res.info);
+                 layui.$('#uploadDemoView').removeClass('layui-hide').find('a').attr('href', res.url);
+                 console.log(res)
+             }
+             ,error: function(){
+                 //请求异常回调
+                 console.log('no');
+             }
+         });
+
+     });
+
+
+
+
+ </script>
+
+
+</body>
+</html>
