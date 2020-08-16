@@ -49,6 +49,7 @@
              ,url: '/index/index/uploadLayui' //上传接口
              ,accept:'file'  // 文件类型
              ,field:'uploadZip' //字段 name值
+
              ,done: function(res){
                  layer.msg(res.info);
                  //上传完毕回调
@@ -67,6 +68,9 @@
              ,url: '/index/index/uploadLayui' //改成您自己的上传接口
              ,accept:'file'  // 文件类型
              ,field:'uploadZip' //字段 name值
+             ,acceptMime: 'application/x-zip-compressed'
+             ,size:'3'
+             ,drag:true
              ,done: function(res){
 
 

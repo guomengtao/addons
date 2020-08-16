@@ -7,7 +7,12 @@ class Index
 {
     public function index()
     {
-        return view('add_plugin');
+        return view('layui');
+    }
+
+    public function layui()
+    {
+        return view();
     }
 
     public function addPlugin()
@@ -80,6 +85,9 @@ class Index
 
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('uploadZip');
+
+        // 获取文件扩展名 ，非后缀名
+        $file->getOriginalMime();
 
 
         $fileName = $file->getOriginalName();;
@@ -306,5 +314,101 @@ class Index
             'status'     => 1,
             'pluginName' => "./".$fileName
         ]);
+    }
+
+
+    public function layuiUploadAPI()
+    {
+
+
+        // 获取表单上传文件 例如上传了001.jpg
+        $file = request()->file('pluginFile');
+
+
+        $fileName = $file->getOriginalName();
+        $fileName = substr($fileName, 0, -4);
+
+
+        // if ($file->getOriginalExtension() <> 'application/x-zip-compressed'){
+        //     return json(['info'   => $file->getOriginalMime(),
+        //                  'status' => 0
+        //     ]);
+        // }
+
+
+        if ($file->getOriginalExtension() <> 'zip'){
+            return json(['info'   => '需要上传zip格式的插件',
+                         'status' => 0
+            ]);
+        }
+
+        if ($file->getSize() > '2097152'){
+            return json(['info'   => '文件需要小于2M',
+                         'status' => 0
+            ]);
+        }
+
+
+
+        if ($fileName == 'index') {
+            return json(['info'   => '"index模块为基础插件功能模块，请尝试使用其它名称做为插件名',
+                         'status' => 0
+            ]);
+
+        }
+
+        if ($fileName == 'addon') {
+            return json(['info'   => '"addon模块为基础插件功能模块，请尝试使用其它名称做为插件名',
+                         'status' => 0
+            ]);
+
+        }
+
+
+
+
+
+
+
+
+        // 上传到本地服务器
+        $savename = \think\facade\Filesystem::disk('public')
+            ->putFileAs('plugins', $file, $fileName.'.zip');
+
+
+
+
+        // 拼接上传后的文件绝对路径
+        $uploadPath = './storage/plugins/'.$fileName.".zip";
+
+
+        // 定义解压路径
+        $unzipPath = './storage/plugins/unzip/'.$fileName;
+
+
+        // 实例化对象
+        $zip = new \ZipArchive();
+        //打开zip文档，如果打开失败返回提示信息
+        if ($zip->open($uploadPath, \ZipArchive::CREATE) !== true) {
+            return json(['info' => '解压失败', 'status' => 0]);
+        } else {
+            //将压缩文件解压到指定的目录下
+            $zip->extractTo($unzipPath);
+            //关闭zip文档
+            $zip->close();
+
+        }
+
+        $root = app()->getRootPath();
+        $root = str_replace('\\', '/', $root);
+
+        $f = new FileUtil();
+        $f->moveDir($unzipPath, $root.'/app/'.$fileName);
+
+        return json(['info' => '上传成功', 'status' => 1,'url'=> "../../".$fileName]);
+    }
+
+    public function list(){
+        return view();
     }
 }
