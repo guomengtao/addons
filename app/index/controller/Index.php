@@ -393,7 +393,11 @@ class Index
             return json(['info' => '解压失败', 'status' => 0]);
         } else {
             //将压缩文件解压到指定的目录下
-            $zip->extractTo($unzipPath);
+            $unzip = $zip->extractTo($unzipPath);
+            if(!$unzip){
+                return json(['info' => $unzip.'解压失败', 'status' => 0]);
+            }
+
             //关闭zip文档
             $zip->close();
 
@@ -402,10 +406,16 @@ class Index
         $root = app()->getRootPath();
         $root = str_replace('\\', '/', $root);
 
-        $f = new FileUtil();
-        $f->moveDir($unzipPath, $root.'/app/'.$fileName);
+        return json(['info' => $root, 'status' => 1,'url'=> $fileName]);
 
-        return json(['info' => '上传成功', 'status' => 1,'url'=> "../../".$fileName]);
+        $f = new FileUtil();
+        $move = $f->moveDir($unzipPath, $root.'/app/'.$fileName);
+
+        if (!$move){
+            return json(['info' => $move."移动失败", 'status' => 0,'url'=> $fileName]);
+        }
+
+        return json(['info' => '上传成功', 'status' => 1,'url'=> $fileName]);
     }
 
     public function list(){
