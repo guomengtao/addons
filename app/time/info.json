@@ -1,0 +1,9 @@
+{
+  "name": "addon",
+  "title": "示例插件",
+  "intro": "这是一个示例插件的介绍",
+  "author": "jack",
+  "website": "http://addons.gaoxueya.com",
+  "version": "1.0.0",
+  "state": "1"
+}
